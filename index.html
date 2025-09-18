@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>自然科学部クイズ</title>
+  <style>
+    .mom{
+      position: relative; 
+    }
+    .img1{
+      display: block;     /* インライン要素だと余白が出るので block にする */
+  margin: 0;          /* 左揃えにしたいので margin をリセット */
+  max-width: 600px;   /* 画面幅を超えないようにするなら */
+  height: auto;
+    }
+    .button0{
+      position: absolute;  
+      left: 40px;
+      top:200px;
+      background: #00e000;
+      color: #ffffff;
+      border-radius: 0.25em;
+      padding: 1em 2em 0.8em;
+      line-height:1;
+      display: inline-block;
+    }
+    .button1{
+      margin: 10px;
+      width:200px;
+      background: #00e000;
+      color: #ffffff;
+      border-radius: 0.25em;
+      padding: 1em 2em 0.8em;
+      line-height:1;
+      display: none;
+    }
+    .button2{
+      margin: 10px; 
+      width:200px;
+      background: #00e000;
+      color: #ffffff;
+      border-radius: 0.25em;
+      padding: 1em 2em 0.8em;
+      line-height:1;
+      display: none;
+    }
+    .button3{
+      margin: 10px; 
+      width:200px;
+      background: #00e000;
+      color: #ffffff;
+      border-radius: 0.25em;
+      padding: 1em 2em 0.8em;
+      line-height:1;
+      display: none;
+    }
+    .button4{
+      margin: 10px;
+      width:200px;
+      background: #00e000;
+      color: #ffffff;
+      border-radius: 0.25em;
+      padding: 1em 2em 0.8em;
+      line-height:1;
+      display: none;
+    }
+    .retry{
+      margin: 10px;
+      width:50px;
+      background: #00e000;
+      color: #ffffff;
+      border-radius: 0.25em;
+      padding: 1em 2em 0.8em;
+      line-height:1;
+      display: none;
+    }
+    .share{
+      margin: 10px;
+      width:50px;
+      background: #00e000;
+      color: #ffffff;
+      border-radius: 0.25em;
+      padding: 1em 2em 0.8em;
+      line-height:1;
+      display: none;
+    }
+    .button0:hover {
+      background: #a0f0a0;
+    }
+    .button1:hover {
+      background: #a0f0a0;
+    }
+    .button2:hover {
+      background: #a0f0a0;
+    }
+    .button3:hover {
+      background: #a0f0a0;
+    }
+    .button4:hover {
+      background: #a0f0a0;
+    }
+    .retry:hover {
+      background: #a0f0a0;
+    }
+    .share:hover {
+      background: #a0f0a0;
+    }
+    .h1{
+      position: absolute;  
+    }
+    .maru{
+      position: fixed;    
+      top: 50%;           
+      left: 50%;           
+      transform: translate(-50%, -50%); 
+      max-width: 90%;        
+      max-height: 90%;
+      display:none;
+    }
+    .batu{
+      position: fixed;     
+      top: 50%;          
+      left: 50%;           
+      transform: translate(-50%, -50%); 
+      max-width: 90%;        
+      max-height: 90%;
+      display:none;
+    }
+ 
+    .overlay {
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.6);
+  z-index: 10;
+  display: none;
+}
+
+.popup {
+  position: fixed;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 20;
+  display: none;
+  max-width: 90%;
+  max-height: 90%;
+  text-align: center;
+  overflow: auto; /* 高さが画面を超えたときスクロール */
+}
+
+.popup img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 1em;
+}
+
+.popup p {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+    
+  </style>
+</head>
+<body>
+  <div class="mom">
+    
+    <div id="overlay" class="overlay"></div>
+<div id="popup" class="popup">
+  <img id="popup-img" src="" alt="表示画像">
+  <p id="popup-text"></p>
+  <p id="popup-text2"></p>
+  <button id="close-btn">閉じる</button>
+</div>
+
+
+  <h1>自然科学部　生物クイズ</h1>
+  <p id="att" class="att">※このクイズには虫の画像が出てきます。苦手な方はご注意ください。</p>
+ <h3 id="score"></h3>
+    <ol id="result"></ol>
+    <h2 id="q"></h2>  
+  <p id="txt" style="display:none;">この生物の名前は？</p><br>
+  <img id="img1">
+    <img id="maru" class="maru" src="https://cdn-ak.f.st-hatena.com/images/fotolife/J/JuneNNN/20240412/20240412153102.png">
+    <img id="batu" class="batu" src="https://cdn-ak.f.st-hatena.com/images/fotolife/J/JuneNNN/20240412/20240412153149.png">
+<div class="buttons">
+  <a class="button1" id="button1">1,</a>
+  <a class="button2" id="button2">2,</a><br>
+  <a class="button3" id="button3">3,</a>
+  <a class="button4" id="button4">4,</a>
+  <a class="retry" id="retry">リトライする</a>
+  <a class="share" id="share">共有</a>
+</div>
+
+  <a class="button0" id="button0">クイズ開始</a>
+    </div>
+  <script>
+    let score=0;
+    let result=[];
+    
+    const maru="https://cdn-ak.f.st-hatena.com/images/fotolife/J/JuneNNN/20240412/20240412153102.png";
+    const batu="https://cdn-ak.f.st-hatena.com/images/fotolife/J/JuneNNN/20240412/20240412153149.png";
+    
+ const overlay = document.getElementById("overlay");
+const popup = document.getElementById("popup");
+const popupImg = document.getElementById("popup-img");
+const popupText = document.getElementById("popup-text");
+const popupText2 = document.getElementById("popup-text2");
+const closeBtn = document.getElementById("close-btn");
+
+// ポップアップを表示する関数
+function showPopup(imgSrc, text,text2) {
+  popupImg.src = imgSrc;
+  popupText.textContent = text;  // 解説文をセット
+  popupText2.textContent = text2;
+  overlay.style.display = "block";
+  popup.style.display = "block";
+}
+
+// 閉じる処理
+closeBtn.addEventListener("click", () => {
+  overlay.style.display = "none";
+  popup.style.display = "none";
+  set();
+});
+
+// オーバーレイをクリックしても閉じる
+overlay.addEventListener("click", () => {
+  overlay.style.display = "none";
+  popup.style.display = "none";
+  set();
+});
+
+
+    //選択肢をダブルクオーテーション内に入力してください。
+    const choices=[["a","b","c","d"],["A","B","C","D"],["","","",""],["","","",""],["","","",""],["","","",""],["","","",""],["","","",""],["","","",""],["","","",""]];
+    //正解の選択番号を入力してください。(1~4)
+    const answer=[1,2,2,3,4,4,1,3,2,1];
+    let describe2=[];
+    for(let i=0;i<10;i++){
+      describe2[i]="正解:"+answer[i]+","+choices[i][answer[i]-1];
+    }
+    
+    //問題ごとの解説を入れてください。
+    const describe=["解説:","解説:","解説:","解説:","解説:","解説:","解説:","解説:","解説:","解説:"];
+    
+    let urls=[];
+    const urls1="https://imkn1013.github.io/nature_quiz/photos/";
+    const urls3=".jpg";
+    //順番を変更するときは以下を並び替えてください。
+    const urls2=["1st","2nd","3rd","4th","5th","6th","7th","8th","9th","10th"];
+    for(let i=0;i<10;i++){
+      urls[i]=urls1+urls2[i]+urls3;
+    }
+    
+    //リサイズ関係
+    let size=[];
+    const resize=function(){
+     size=[window.innerWidth,window.innerHeight];
+     console.log(size);
+      document.getElementById("maru").style.width=size[1]/3+"px";
+      document.getElementById("batu").style.width=size[1]/3+"px";
+     if(size[0]>635){
+       document.getElementById("img1").style.width="600px";
+       document.getElementById("img1").style.height="auto";
+       const heigth2=document.getElementById("img1").clientHeight;
+       document.getElementById("button1").style.top=heigth2+120+"px";
+       document.getElementById("button2").style.top=heigth2+120+"px";
+       document.getElementById("button3").style.top=heigth2+180+"px";
+       document.getElementById("button4").style.top=heigth2+180+"px";
+        document.getElementById("button1").style.left="40px";
+       document.getElementById("button2").style.left="340px";
+       document.getElementById("button3").style.left="40px";
+       document.getElementById("button4").style.left="340px";
+     }else{
+       document.getElementById("img1").style.width=size[0]+"px";
+       document.getElementById("img1").style.height="auto";
+       const heigth2=document.getElementById("img1").clientHeight;
+       document.getElementById("button1").style.top=heigth2+120+"px";
+       document.getElementById("button2").style.top=heigth2+180+"px";
+       document.getElementById("button3").style.top=heigth2+240+"px";
+       document.getElementById("button4").style.top=heigth2+300+"px";
+       document.getElementById("button1").style.left="40px";
+       document.getElementById("button2").style.left="40px";
+       document.getElementById("button3").style.left="40px";
+       document.getElementById("button4").style.left="40px";
+     }
+    };
+    resize();
+    window.addEventListener("resize", resize);
+    const img = document.getElementById("img1");
+    img.onload = resize;
+    
+    let question=0;
+    
+    const set=function(){
+        question++;
+      if(question<11){
+        document.getElementById("img1").src=urls[question-1];
+        document.getElementById("q").innerHTML="Q"+question;
+        document.getElementById("button1").innerHTML="1,"+choices[question-1][0];
+        document.getElementById("button2").innerHTML="2,"+choices[question-1][1];
+        document.getElementById("button3").innerHTML="3,"+choices[question-1][2];
+        document.getElementById("button4").innerHTML="4,"+choices[question-1][3];
+      }else{
+        document.getElementById("q").style.display="none";
+        document.getElementById("txt").style.display="none";
+        document.getElementById("button1").style.display="none";
+      document.getElementById("button2").style.display="none";
+      document.getElementById("button3").style.display="none";
+      document.getElementById("button4").style.display="none";
+        document.getElementById("img1").style.display="none";
+        
+        document.getElementById("score").innerHTML="あなたのスコアは"+score+"点でした。";
+        document.getElementById("retry").style.display="inline-block";
+        document.getElementById("result").style.display="inline-block";
+        document.getElementById("share").style.display="inline-block";
+        const ol = document.getElementById("result");
+        result.forEach((value,index)=> {
+  const li = document.createElement("li");
+  let res = (value==1) ? "◯" : "✕";  // ←ここを1行にまとめる
+  li.textContent = (index+1)+"問目："+res;
+  ol.appendChild(li);
+});
+
+
+
+      }
+    };
+    
+    button0.addEventListener('click', (event) => {
+      console.log("start");
+      document.getElementById("button0").style.display="none";
+      document.getElementById("button1").style.display="inline-block";
+      document.getElementById("button2").style.display="inline-block";
+      document.getElementById("button3").style.display="inline-block";
+      document.getElementById("button4").style.display="inline-block";
+      document.getElementById("txt").style.display="inline-block";
+      set();
+    });
+    
+    retry.addEventListener('click', (event) => {
+      location.reload();  // ページ全体をリロード
+    });
+
+    
+    const shareScore=function() {
+  const text = `私のスコアは ${score} 点！`;
+  const url = "https://sites.google.com/kindai-toyooka.ed.jp/kinbaisai2025/%E5%B1%95%E7%A4%BA/%E4%B8%AD%E5%AD%A6%E8%87%AA%E7%84%B6%E7%8F%AD?authuser=0#h.66e7347c8d6d3233_15";
+
+  const twitterUrl =
+    "https://twitter.com/intent/tweet?text=" +
+    encodeURIComponent(text) +
+    "&url=" + encodeURIComponent(url);
+
+  window.open(twitterUrl, "_blank"); // 新しいタブで開く
+}
+    
+    share.addEventListener('click', (event) => {
+      
+    });
+    
+    document.getElementById("button1").addEventListener("click", () => {
+      if(answer[question]==1){
+        showPopup(maru,describe2[question],describe[question]);
+        score++;
+        result[question-1]=1;
+      }else{
+        showPopup(batu,describe2[question],describe[question]);
+        result[question-1]=0;
+      }
+    });
+    document.getElementById("button2").addEventListener("click", () => {
+      if(answer[question]==2){
+        showPopup(maru,describe2[question],describe[question]);
+        score++;
+        result[question-1]=1;
+      }else{
+        showPopup(batu,describe2[question],describe[question]);
+        result[question-1]=0;
+      }
+    });
+    document.getElementById("button3").addEventListener("click", () => {
+      if(answer[question]==3){
+        showPopup(maru,describe2[question],describe[question]);
+        score++;
+        result[question-1]=1;
+      }else{
+        showPopup(batu,describe2[question],describe[question]);
+        result[question-1]=0;
+      }
+    });
+    document.getElementById("button4").addEventListener("click", () => {
+      if(answer[question]==4){
+        showPopup(maru,describe2[question],describe[question]);
+        score++;
+        result[question-1]=1;
+      }else{
+        showPopup(batu,describe2[question],describe[question]);
+        result[question-1]=0;
+      }
+    });
+
+    
+  </script>
+</body>
+</html>
